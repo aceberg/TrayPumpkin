@@ -14,7 +14,7 @@ TrayController::TrayController(const AppConfig &config)
 {
     m_menu = new QMenu();
     QAction *titleAction = m_menu->addAction(m_config.appName());
-    titleAction->setEnabled(false);
+    // titleAction->setEnabled(false);
     m_menu->addSeparator();
     QAction *startAction = m_menu->addAction("Start");
     QAction *stopAction  = m_menu->addAction("Stop");

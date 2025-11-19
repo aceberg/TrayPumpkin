@@ -35,3 +35,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Widgets
     KF5::Notifications
 )
+
+# where to find our CMake modules
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(Packing)

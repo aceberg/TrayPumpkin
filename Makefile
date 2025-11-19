@@ -4,3 +4,5 @@ run:
 	cd build && make
 	./build/tray-pumpkin -c example-config.ini
 
+deb:
+	cd build && cpack -G DEB

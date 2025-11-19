@@ -1,0 +1,38 @@
+name: Binary-release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  generate:
+    name: Create release-artifacts
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            cmake \
+            build-essential \
+            qtbase5-dev \
+            libkf5notifications-dev
+
+      - name: Build and create DEB package
+        run: |
+          mkdir -p build
+          cmake -B build
+          cd build
+          make
+          cpack -G DEB
+
+      - name: Upload the artifacts
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: 'build/tray-pumpkin-*'
