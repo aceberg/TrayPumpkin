@@ -1,31 +1,35 @@
-// TrayController.h
 #pragma once
 #include <QObject>
-#include <QIcon>
-
-class AppConfig;
-class KStatusNotifierItem;
-class QMenu;
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include "AppConfig.h"
 
 class TrayController : public QObject
 {
     Q_OBJECT
 
 public:
-    TrayController(const AppConfig &config);
+    explicit TrayController(const AppConfig &config, QObject *parent = nullptr);
 
 private:
-    void start();
-    void stop();
-    void toggle();
-    void runCommand(const QString &cmd);
+    void setupMenu();
+    void updateIcon();
+    void runStart();
+    void runStop();
 
-    const AppConfig &m_config;
-    KStatusNotifierItem *m_item = nullptr;
+private slots:
+    void handleLeftClick(QSystemTrayIcon::ActivationReason reason);
+    void quitApp();
+
+private:
+    AppConfig m_config;
+
+    QSystemTrayIcon *m_tray = nullptr;
     QMenu *m_menu = nullptr;
 
-    bool running = false;
+    QAction *m_startAction = nullptr;
+    QAction *m_stopAction = nullptr;
+    QAction *m_quitAction = nullptr;
 
-    QIcon iconNormal;
-    QIcon iconRunning;
+    bool m_running = false;
 };

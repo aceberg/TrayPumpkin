@@ -12,6 +12,9 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 # KDE Frameworks 5 (KStatusNotifierItem)
 find_package(KF5Notifications REQUIRED)
 
+# Yaml
+find_package(yaml-cpp REQUIRED)
+
 # Source files
 set(SOURCES
     src/main.cpp
@@ -34,6 +37,7 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     Qt5::Widgets
     KF5::Notifications
+    yaml-cpp
 )
 
 # where to find our CMake modules

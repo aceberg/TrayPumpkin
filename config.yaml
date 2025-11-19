@@ -1,0 +1,21 @@
+app:
+  name: "Tray Pumpkin"
+  tooltip: "Pumpkin tray utility"
+
+icons:
+  normal: "assets/pumpkin-green.png"
+  running: "assets/pumpkin-orange.png"
+
+commands:
+  start: "notify-send 'Start'"
+  stop: "notify-send 'Stop'"
+
+menu:
+  - name: "Open logs"
+    cmd: "xdg-open /var/log"
+
+  - separator: true
+
+  - name: "Say Hello"
+    cmd: "notify-send 'Hello world'"
+

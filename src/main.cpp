@@ -1,29 +1,44 @@
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QDebug>
+
 #include "AppConfig.h"
 #include "TrayController.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    app.setQuitOnLastWindowClosed(false);
 
-    QString configPath = "config.ini";
+    // Parse command line
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Tray Pumpkin - YAML Tray App");
+    parser.addHelpOption();
 
-    // parse command-line args
-    for (int i = 1; i < argc; ++i) {
-        QString arg = argv[i];
-        if (arg == "-c" && i + 1 < argc)
-            configPath = argv[++i];
-        else if (arg.startsWith("-c="))
-            configPath = arg.mid(3);
+    QCommandLineOption configOpt(
+        QStringList() << "c" << "config",
+        "Path to config file (YAML).",
+        "file"
+    );
+    parser.addOption(configOpt);
+
+    parser.process(app);
+
+    QString configPath = parser.value(configOpt);
+    if (configPath.isEmpty()) {
+        qWarning() << "No config file provided. Use: ./tray-pumpkin -c config.yaml";
+        return 1;
     }
 
+    // Load configuration
     AppConfig config(configPath);
     if (!config.isValid()) {
-        qWarning() << "Config not found:" << configPath;
-        // continue but start/stop will do nothing
+        qWarning() << "Invalid config. Exiting.";
+        return 1;
     }
 
-    TrayController tray(config);
+    // Create tray controller
+    TrayController controller(config);
+
     return app.exec();
 }
