@@ -13,9 +13,7 @@ public:
 
 private:
     void setupMenu();
-    void updateIcon();
-    void runStart();
-    void runStop();
+    void runMenuItem(const MenuItem &item);
 
 private slots:
     void handleLeftClick(QSystemTrayIcon::ActivationReason reason);
@@ -27,8 +25,6 @@ private:
     QSystemTrayIcon *m_tray = nullptr;
     QMenu *m_menu = nullptr;
 
-    QAction *m_startAction = nullptr;
-    QAction *m_stopAction = nullptr;
     QAction *m_quitAction = nullptr;
 
     bool m_running = false;

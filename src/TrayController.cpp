@@ -11,11 +11,8 @@ TrayController::TrayController(const AppConfig &config, QObject *parent)
     m_menu = new QMenu();
 
     setupMenu();
-    updateIcon();
 
-    // Tooltip
-    if (!m_config.tooltip().isEmpty())
-        m_tray->setToolTip(m_config.tooltip());
+    runMenuItem(m_config.mainApp());
 
     // Handle left click toggle Start/Stop
     connect(m_tray, &QSystemTrayIcon::activated,
@@ -31,8 +28,8 @@ TrayController::TrayController(const AppConfig &config, QObject *parent)
 void TrayController::setupMenu()
 {
     // Top title
-    if (!m_config.appName().isEmpty()) {
-        QAction *title = m_menu->addAction(m_config.appName());
+    if (!m_config.mainApp().name.isEmpty()) {
+        QAction *title = m_menu->addAction(m_config.mainApp().name);
         // title->setEnabled(false);
         m_menu->addSeparator();
     }
@@ -48,26 +45,13 @@ void TrayController::setupMenu()
 
         QAction *action = m_menu->addAction(item.name);
 
-        connect(action, &QAction::triggered, this, [item]() {
-            if (!item.command.isEmpty())
-                QProcess::startDetached("/bin/sh", {"-c", item.command});
+        connect(action, &QAction::triggered, this, [this, item]() {
+            runMenuItem(item);
         });
     }
 
     if (!m_config.menuItems().isEmpty())
         m_menu->addSeparator();
-
-    //
-    // Start/Stop actions
-    //
-    m_startAction = m_menu->addAction("Start");
-    m_stopAction  = m_menu->addAction("Stop");
-    m_stopAction->setEnabled(false);
-
-    connect(m_startAction, &QAction::triggered, this, &TrayController::runStart);
-    connect(m_stopAction,  &QAction::triggered, this, &TrayController::runStop);
-
-    m_menu->addSeparator();
 
     //
     // Quit
@@ -76,48 +60,20 @@ void TrayController::setupMenu()
     connect(m_quitAction, &QAction::triggered, this, &TrayController::quitApp);
 }
 
-//
-// Update icon based on running state
-//
-void TrayController::updateIcon()
+void TrayController::runMenuItem(const MenuItem &item)
 {
-    QString iconPath = m_running ? m_config.iconRunning()
-                                 : m_config.iconNormal();
+    if (item.isSeparator)
+        return;
 
-    if (!iconPath.isEmpty())
-        m_tray->setIcon(QIcon(iconPath));
-}
+    if (!item.command.isEmpty()) {
+        QProcess::startDetached("/bin/sh", {"-c", item.command});
+    }
 
-//
-// Run start command
-//
-void TrayController::runStart()
-{
-    m_running = true;
+    if (!item.icon.isEmpty())
+        m_tray->setIcon(QIcon(item.icon));
 
-    if (!m_config.startCmd().isEmpty())
-        QProcess::startDetached("/bin/sh", {"-c", m_config.startCmd()});
-
-    m_startAction->setEnabled(false);
-    m_stopAction->setEnabled(true);
-
-    updateIcon();
-}
-
-//
-// Run stop command
-//
-void TrayController::runStop()
-{
-    m_running = false;
-
-    if (!m_config.stopCmd().isEmpty())
-        QProcess::startDetached("/bin/sh", {"-c", m_config.stopCmd()});
-
-    m_startAction->setEnabled(true);
-    m_stopAction->setEnabled(false);
-
-    updateIcon();
+    if (!item.tooltip.isEmpty())
+        m_tray->setToolTip(item.tooltip);
 }
 
 //
@@ -126,10 +82,13 @@ void TrayController::runStop()
 void TrayController::handleLeftClick(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger) { // left-click
-        if (m_running)
-            runStop();
-        else
-            runStart();
+        if (m_running && !m_config.leftToggle().command.isEmpty()) {
+            m_running = false;
+            runMenuItem(m_config.leftToggle());
+        } else {
+            m_running = true;
+            runMenuItem(m_config.leftClick());
+        }
     }
 }
 
@@ -138,8 +97,7 @@ void TrayController::handleLeftClick(QSystemTrayIcon::ActivationReason reason)
 //
 void TrayController::quitApp()
 {
-    if (m_running)
-        runStop();
+    runMenuItem(m_config.quitApp());
 
     qApp->quit();
 }

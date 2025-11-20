@@ -1,11 +1,14 @@
 #pragma once
 #include <QString>
 #include <QList>
+#include <yaml-cpp/yaml.h>
 
 struct MenuItem {
     bool isSeparator = false;
     QString name;
     QString command;
+    QString icon;
+    QString tooltip;
 };
 
 class AppConfig
@@ -15,14 +18,12 @@ public:
 
     bool isValid() const;
 
-    QString appName() const { return m_appName; }
-    QString tooltip() const { return m_tooltip; }
+    MenuItem mainApp() const { return m_mainApp; }
 
-    QString startCmd() const { return m_startCmd; }
-    QString stopCmd() const { return m_stopCmd; }
+    MenuItem leftClick() const { return m_leftClick; }
+    MenuItem leftToggle() const { return m_leftToggle; }
 
-    QString iconNormal() const { return m_iconNormal; }
-    QString iconRunning() const { return m_iconRunning; }
+    MenuItem quitApp() const { return m_quitApp; }
 
     const QList<MenuItem>& menuItems() const { return m_menuItems; }
 
@@ -30,14 +31,14 @@ private:
     bool m_valid = false;
     QString m_path;
 
-    QString m_appName;
-    QString m_tooltip;
+    MenuItem m_mainApp;
 
-    QString m_startCmd;
-    QString m_stopCmd;
+    MenuItem m_leftClick;
+    MenuItem m_leftToggle;
 
-    QString m_iconNormal;
-    QString m_iconRunning;
+    MenuItem m_quitApp;
 
     QList<MenuItem> m_menuItems;
+
+    MenuItem loadNamedItem(const YAML::Node &node);
 };

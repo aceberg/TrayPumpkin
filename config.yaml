@@ -1,20 +1,34 @@
 app:
   name: "Tray Pumpkin"
   tooltip: "Pumpkin tray utility"
+  icon: "assets/pumpkin-green.png"
+  cmd: "notify-send 'APP STARTED'"
 
-icons:
-  normal: "assets/pumpkin-green.png"
-  running: "assets/pumpkin-orange.png"
+left_click:
+  cmd: "notify-send 'Click Start'"
+  icon: "assets/pumpkin-orange.png"
 
-commands:
-  start: "notify-send 'Start'"
-  stop: "notify-send 'Stop'"
+left_click_toggle:
+  cmd: "notify-send 'Click Toggle'"
+  icon: "assets/pumpkin-green.png"
+
+quit:
+  cmd: "notify-send 'QUIT'"
 
 menu:
-  - name: "Open logs"
-    cmd: "xdg-open /var/log"
+  - name: "Start"
+    cmd: "notify-send 'Start'"
+    icon: "assets/pumpkin-orange.png"
+
+  - name: "Stop"
+    cmd: "notify-send 'Stop'"
+    icon: "assets/pumpkin-line.png"
 
   - separator: true
+
+  - name: "Open terminal"
+    cmd: "wezterm"
+    icon: ""
 
   - name: "Say Hello"
     cmd: "notify-send 'Hello world'"

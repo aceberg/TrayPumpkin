@@ -23,38 +23,15 @@ AppConfig::AppConfig(const QString &path)
 
     m_valid = true;
 
+    // 
+    // Config
     //
-    // App section
-    //
-    if (root["app"]) {
-        if (root["app"]["name"])
-            m_appName = QString::fromStdString(root["app"]["name"].as<std::string>());
+    m_mainApp = loadNamedItem(root["app"]);
 
-        if (root["app"]["tooltip"])
-            m_tooltip = QString::fromStdString(root["app"]["tooltip"].as<std::string>());
-    }
+    m_leftClick = loadNamedItem(root["left_click"]);
+    m_leftToggle = loadNamedItem(root["left_click_toggle"]);
 
-    //
-    // Icons section
-    //
-    if (root["icons"]) {
-        if (root["icons"]["normal"])
-            m_iconNormal = QString::fromStdString(root["icons"]["normal"].as<std::string>());
-
-        if (root["icons"]["running"])
-            m_iconRunning = QString::fromStdString(root["icons"]["running"].as<std::string>());
-    }
-
-    //
-    // Commands section
-    //
-    if (root["commands"]) {
-        if (root["commands"]["start"])
-            m_startCmd = QString::fromStdString(root["commands"]["start"].as<std::string>());
-
-        if (root["commands"]["stop"])
-            m_stopCmd = QString::fromStdString(root["commands"]["stop"].as<std::string>());
-    }
+    m_quitApp = loadNamedItem(root["quit"]);
 
     //
     // Menu
@@ -73,9 +50,7 @@ AppConfig::AppConfig(const QString &path)
             // menu entry with name + cmd
             if (item["name"] && item["cmd"]) {
                 MenuItem mi;
-                mi.isSeparator = false;
-                mi.name = QString::fromStdString(item["name"].as<std::string>());
-                mi.command = QString::fromStdString(item["cmd"].as<std::string>());
+                mi = loadNamedItem(item);
                 m_menuItems.append(mi);
             }
         }
@@ -85,4 +60,28 @@ AppConfig::AppConfig(const QString &path)
 bool AppConfig::isValid() const
 {
     return m_valid;
+}
+
+
+MenuItem AppConfig::loadNamedItem(const YAML::Node &node)
+{
+    MenuItem item;
+
+    if (!node) {
+        return item;  // empty
+    }
+
+    if (node["name"])
+        item.name = QString::fromStdString(node["name"].as<std::string>());
+
+    if (node["cmd"])
+        item.command = QString::fromStdString(node["cmd"].as<std::string>());
+
+    if (node["tooltip"])
+        item.tooltip = QString::fromStdString(node["tooltip"].as<std::string>());
+
+    if (node["icon"])
+        item.icon = QString::fromStdString(node["icon"].as<std::string>());
+
+    return item;
 }
