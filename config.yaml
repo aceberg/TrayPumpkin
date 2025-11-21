@@ -13,9 +13,10 @@ left_click_toggle:
   icon: "assets/pumpkin-green.png"
 
 quit:
-  cmd: "notify-send 'QUIT'"
+  cmd: "killall xpenguins && notify-send 'All stopped'"
 
-menu:
+# name and cmd are required for every menu item except separator
+menu: 
   - name: "Edit config.yaml"
     cmd: "gedit config.yaml"
 
@@ -33,6 +34,7 @@ menu:
 
   - name: "Restart App-2"
     cmd: "notify-send 'Hello world'"
+    tooltip: "New Tooltip"
 
   - separator: true
 
