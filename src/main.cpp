@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     // Parse command line
     QCommandLineParser parser;
-    parser.setApplicationDescription("Tray Pumpkin - YAML Tray App");
+    parser.setApplicationDescription("Tray Pumpkin - configurable tray icon and menu");
     parser.addHelpOption();
 
     QCommandLineOption configOpt(

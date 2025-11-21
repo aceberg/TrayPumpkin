@@ -20,7 +20,8 @@ jobs:
             cmake \
             build-essential \
             qtbase5-dev \
-            libkf5notifications-dev
+            libkf5notifications-dev \
+            libyaml-cpp-dev
 
       - name: Build and create DEB package
         run: |
@@ -28,7 +29,7 @@ jobs:
           cmake -B build
           cd build
           make
-          cpack -G DEB
+          cpack
 
       - name: Upload the artifacts
         uses: skx/github-action-publish-binaries@master

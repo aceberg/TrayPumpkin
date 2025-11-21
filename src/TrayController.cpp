@@ -60,6 +60,9 @@ void TrayController::setupMenu()
     connect(m_quitAction, &QAction::triggered, this, &TrayController::quitApp);
 }
 
+//
+// Run cmd, change icon and tooltip
+//
 void TrayController::runMenuItem(const MenuItem &item)
 {
     if (item.isSeparator)
@@ -93,7 +96,7 @@ void TrayController::handleLeftClick(QSystemTrayIcon::ActivationReason reason)
 }
 
 //
-// Quit: first run Stop, then exit
+// Quit: first run quit cmd, then exit
 //
 void TrayController::quitApp()
 {

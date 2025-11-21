@@ -16,20 +16,39 @@ quit:
   cmd: "notify-send 'QUIT'"
 
 menu:
-  - name: "Start"
+  - name: "Edit config.yaml"
+    cmd: "gedit config.yaml"
+
+  - separator: true
+
+  - name: "Start MyApp-1"
     cmd: "notify-send 'Start'"
     icon: "assets/pumpkin-orange.png"
 
-  - name: "Stop"
+  - name: "Stop MyApp-1"
     cmd: "notify-send 'Stop'"
     icon: "assets/pumpkin-line.png"
 
   - separator: true
 
-  - name: "Open terminal"
-    cmd: "wezterm"
-    icon: ""
-
-  - name: "Say Hello"
+  - name: "Restart App-2"
     cmd: "notify-send 'Hello world'"
+
+  - separator: true
+
+  - name: "Penguins Big"
+    cmd: "xpenguins --theme 'Big Penguins' -a -b"
+    icon: "assets/tux.png"
+
+  - name: "Penguins Start"
+    cmd: "xpenguins --theme Penguins -a -b"
+    icon: "assets/tux.png"
+
+  - name: "Penguins Squish"
+    cmd: "xpenguins --theme Penguins -a -b -s"
+    icon: "assets/tux.png"
+
+  - name: "Penguins Stop"
+    cmd: "killall xpenguins"
+    icon: "assets/pumpkin-green.png"
 
