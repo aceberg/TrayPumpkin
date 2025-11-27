@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Tray Pumpkin
+GenericName=Tray Utility
+Comment=Configurable tray icon and menu
+Exec=/usr/bin/tray-pumpkin
+Icon=tray-pumpkin
+Terminal=false
+Categories=Utility;GTK;Qt;
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
