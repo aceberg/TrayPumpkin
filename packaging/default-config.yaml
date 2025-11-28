@@ -1,0 +1,44 @@
+# app config
+app:
+  name: "Tray Pumpkin"              # App name
+  tooltip: "Pumpkin tray utility"   # Dafault tooltip
+  icon: "/usr/share/tray-pumpkin/icons/tray-pumpkin.png"    # Dafault icon
+  cmd: "notify-send 'Tray Pumpkin Started'" # This cmd is optional and runs only at the start
+
+# optional, runs on first left click
+left_click:
+  # cmd: "sh ~/myscript.sh start && notify-send 'Start'"
+  cmd: "notify-send 'Start'"
+  icon: "/usr/share/tray-pumpkin/icons/tray-pumpkin.png"
+  tooltip: "MyApp"
+
+# optional, runs on second left click
+left_click_toggle:
+  # cmd: "sh ~/myscript.sh stop && notify-send 'Stop'"
+  cmd: "notify-send 'Stop'"
+  icon: "/usr/share/tray-pumpkin/icons/tray-pumpkin-green.png"
+  tooltip: "Pumpkin tray utility"
+
+# optional, runs on quit
+quit:
+  cmd: "notify-send 'Tray Pumpkin Stopped'"
+
+# optional, right click menu
+# name and cmd are required for every menu item except separator
+menu:
+  - name: "Edit config.yaml"
+    cmd: "xdg-open $HOME/.config/TrayPumpkin/config.yaml"
+
+  - separator: true
+
+  - name: "Start MyApp-1"
+    # cmd: "sh ~/myscript.sh start && notify-send 'Start'"
+    cmd: "notify-send 'Start'"
+    icon: "/usr/share/tray-pumpkin/icons/tray-pumpkin.png"
+    tooltip: "MyApp"
+
+  - name: "Stop MyApp-1"
+    # cmd: "sh ~/myscript.sh stop && notify-send 'Stop'"
+    cmd: "notify-send 'Stop'"
+    icon: "/usr/share/tray-pumpkin/icons/tray-pumpkin-green.png"
+    tooltip: "Pumpkin tray utility"

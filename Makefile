@@ -5,4 +5,4 @@ run:
 	./build/tray-pumpkin -c config.yaml
 
 deb:
-	cd build && cpack -G DEB
+	cd build && cpack

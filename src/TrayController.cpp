@@ -85,7 +85,11 @@ void TrayController::runMenuItem(const MenuItem &item)
 void TrayController::handleLeftClick(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger) { // left-click
-        if (m_running && !m_config.leftToggle().command.isEmpty()) {
+        if (m_running && 
+            (!m_config.leftToggle().command.isEmpty() 
+            || !m_config.leftToggle().icon.isEmpty()
+            || !m_config.leftToggle().tooltip.isEmpty())
+        ) {
             m_running = false;
             runMenuItem(m_config.leftToggle());
         } else {

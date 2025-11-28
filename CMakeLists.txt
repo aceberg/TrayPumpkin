@@ -19,11 +19,13 @@ find_package(yaml-cpp REQUIRED)
 set(SOURCES
     src/main.cpp
     src/AppConfig.cpp
+    src/ConfigFinder.cpp
     src/TrayController.cpp
 )
 
 set(HEADERS
     src/AppConfig.h
+    src/ConfigFinder.h
     src/TrayController.h
 )
 

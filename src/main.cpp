@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "AppConfig.h"
+#include "ConfigFinder.h"
 #include "TrayController.h"
 
 int main(int argc, char *argv[])
@@ -21,23 +22,22 @@ int main(int argc, char *argv[])
         "file"
     );
     parser.addOption(configOpt);
-
     parser.process(app);
 
-    QString configPath = parser.value(configOpt);
+    QString cmdConfigPath = parser.value(configOpt);
+    QString configPath = ConfigFinder::findConfig(cmdConfigPath);
+
     if (configPath.isEmpty()) {
-        qWarning() << "No config file provided. Use: ./tray-pumpkin -c config.yaml";
+        qCritical() << "No config.yaml found!";
         return 1;
     }
 
-    // Load configuration
     AppConfig config(configPath);
     if (!config.isValid()) {
-        qWarning() << "Invalid config. Exiting.";
+        qCritical() << "Invalid config:" << configPath;
         return 1;
     }
 
-    // Create tray controller
     TrayController controller(config);
 
     return app.exec();
