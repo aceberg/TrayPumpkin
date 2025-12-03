@@ -3,6 +3,9 @@
 #include <QApplication>
 #include <QProcess>
 #include <QDebug>
+#include <QMessageBox>
+#include <QIcon>
+#include <QPixmap>
 
 TrayController::TrayController(const AppConfig &config, QObject *parent)
     : QObject(parent), m_config(config)
@@ -27,12 +30,13 @@ TrayController::TrayController(const AppConfig &config, QObject *parent)
 //
 void TrayController::setupMenu()
 {
-    // Top title
-    if (!m_config.mainApp().name.isEmpty()) {
-        QAction *title = m_menu->addAction(m_config.mainApp().name);
-        // title->setEnabled(false);
-        m_menu->addSeparator();
-    }
+    //
+    // About
+    //
+    QAction *aboutAction = m_menu->addAction("About " + m_config.mainApp().name);
+    connect(aboutAction, &QAction::triggered, this, &TrayController::showAboutDialog);
+
+    m_menu->addSeparator();
 
     //
     // Dynamic YAML menu items
@@ -108,3 +112,42 @@ void TrayController::quitApp()
 
     qApp->quit();
 }
+
+
+// 
+// Show About
+// 
+void TrayController::showAboutDialog()
+{
+    QString iconPath = "/usr/share/tray-pumpkin/icons/tray-pumpkin.png";
+
+    QPixmap iconPixmap(iconPath);
+    if (iconPixmap.isNull()) {
+        // fallback to a generic Qt icon
+        iconPixmap = QApplication::windowIcon().pixmap(64, 64);
+    }
+
+    QString text = QString(R"(
+        <b>TrayPumpkin</b><br>
+        Version: <b>%1</b><br><br>
+        Lightweight configurable tray icon and menu<br><br>
+        Author: Andrew Erlikh<br>
+        Licence: MIT<br>
+        Homepage: <a href='https://github.com/aceberg/TrayPumpkin'>
+        https://github.com/aceberg/TrayPumpkin</a><br>
+        Donations: <a href='https://github.com/aceberg#donate'>
+        https://github.com/aceberg#donate</a><br>
+    )").arg(APP_VERSION);
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("About TrayPumpkin");
+
+    msgBox.setTextFormat(Qt::RichText);
+    msgBox.setTextInteractionFlags(Qt::TextBrowserInteraction);
+    msgBox.setText(text);
+
+    msgBox.setIconPixmap(iconPixmap.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    msgBox.exec();
+}
+

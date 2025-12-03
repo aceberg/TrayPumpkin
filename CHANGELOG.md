@@ -2,6 +2,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - 2025-12-03
+### Added
+- `About` menu item
+- `RPM` package
+
 ## [0.1.3] - 2025-11-30
 ### Added
 - Default config path
