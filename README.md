@@ -17,7 +17,38 @@ Menu             | Tray     | User defined icon (Tux)
 ![Screenshot1](./assets/menu.png) | ![Screenshot2](./assets/tray.png) | ![Screenshot2](./assets/tray-tux.png)
 
 ## Install
+There are only packages for `x86_64` arch right now.
+### DEB
+`.deb` package can be downloaded from [latest](https://github.com/aceberg/TrayPumpkin/releases/latest) release or from my [ppa](https://github.com/aceberg/ppa) repo.
+### RPM
+`.rpm` package can be downloaded from [latest](https://github.com/aceberg/TrayPumpkin/releases/latest) release. 
+### TAR.GZ
+1. Install dependencies. The app needs those packages:
+```
+qt5-qtbase, kf5-knotifications, yaml-cpp
+```
+2. Download `.tar.gz` archive from [latest](https://github.com/aceberg/TrayPumpkin/releases/latest) release.
+3. Unpack
+```sh
+tar xvzf tray-pumpkin-*-x86_64.tar.gz
+```
+4. Install
+```sh
+cd tray-pumpkin-*-x86_64
+```
+```sh
+sudo ./install.sh
+```
 
+## Run
+```sh
+tray-pumpkin
+```
+By default, the app will look in `~/.config/TrayPumpkin/config.yaml` for config file. If there is none, it will copy default config example there.   
+To set another config path, run:
+```sh
+tray-pumpkin -c /my/path/config.yaml
+```
 
 ## Config
 Each config item has `name`, `cmd`, `icon` and `tooltip`. You can skip some of them, as in the `config.yaml` example:
@@ -76,13 +107,22 @@ menu:
 ```
 
 ## Build
-Clone the repo and build:
+1. Install dependencies
+```sh
+apt install -y \
+            cmake \
+            build-essential \
+            qtbase5-dev \
+            libkf5notifications-dev \
+            libyaml-cpp-dev
+```
+2. Clone the repo and build
 ```bash
 mkdir -p build
 cmake -B build
 cd build && make
 ```
-Run:
+3. Run
 ```bash
 ./build/tray-pumpkin -c config.yaml
 ```
