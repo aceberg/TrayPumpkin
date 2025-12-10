@@ -21,7 +21,8 @@ jobs:
             build-essential \
             qtbase5-dev \
             libkf5notifications-dev \
-            libyaml-cpp-dev
+            libyaml-cpp-dev \
+            rpm
 
       - name: Build and create DEB package
         run: |

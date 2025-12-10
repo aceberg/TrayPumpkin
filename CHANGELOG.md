@@ -2,7 +2,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.1.4] - 2025-12-03
+## [0.1.4] - 2025-12-11
 ### Added
 - `About` menu item
 - `RPM` package
