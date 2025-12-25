@@ -1,2 +1,5 @@
 build
 tmp.yaml
+appimage-tools
+TrayPumpkin.AppDir
+*.AppImage

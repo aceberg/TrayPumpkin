@@ -22,7 +22,10 @@ jobs:
             qtbase5-dev \
             libkf5notifications-dev \
             libyaml-cpp-dev \
-            rpm
+            rpm \
+            wget \
+            fuse \
+            patchelf
 
       - name: Build and create DEB package
         run: |
@@ -32,9 +35,57 @@ jobs:
           make
           cpack
 
+      - name: Download linuxdeploy
+        run: |
+          wget -O linuxdeploy-x86_64.AppImage \
+            https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+
+          wget -O linuxdeploy-plugin-qt-x86_64.AppImage \
+            https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+          chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+
+      - name: Prepare AppDir for AppImage
+        run: |
+          mkdir -p TrayPumpkin.AppDir/usr/bin
+          mkdir -p TrayPumpkin.AppDir/usr/share/applications
+          mkdir -p TrayPumpkin.AppDir/usr/share/icons/hicolor/48x48/apps
+          mkdir -p TrayPumpkin.AppDir/usr/share/tray-pumpkin/icons
+
+          cp build/tray-pumpkin TrayPumpkin.AppDir/usr/bin/
+          cp packaging/tray-pumpkin.desktop TrayPumpkin.AppDir/usr/share/applications/
+          cp packaging/icons/tray-pumpkin.png TrayPumpkin.AppDir/usr/share/icons/hicolor/48x48/apps/
+          cp packaging/icons/* TrayPumpkin.AppDir/usr/share/tray-pumpkin/icons/
+          cp packaging/default-config.yaml TrayPumpkin.AppDir/usr/share/tray-pumpkin/
+
+          # AppRun
+          cat << 'EOF' > TrayPumpkin.AppDir/AppRun
+          #!/bin/bash
+          HERE="$(dirname "$(readlink -f "$0")")"
+          export PATH="$HERE/usr/bin:$PATH"
+          exec tray-pumpkin "$@"
+          EOF
+          chmod +x TrayPumpkin.AppDir/AppRun
+
+      - name: Build AppImage
+        run: |
+          ./linuxdeploy-x86_64.AppImage \
+            --appdir TrayPumpkin.AppDir \
+            --desktop-file TrayPumpkin.AppDir/usr/share/applications/tray-pumpkin.desktop \
+            --icon-file packaging/icons/tray-pumpkin.png \
+            --output appimage \
+            --plugin qt
+
+      - name: Rename AppImage
+        run: |
+          mv Tray_Pumpkin-x86_64.AppImage TrayPumpkin-${{ github.ref_name }}-x86_64.AppImage
+
+
       - name: Upload the artifacts
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: 'build/tray-pumpkin-*'
+          args: |
+            build/tray-pumpkin-*
+            TrayPumpkin-*.AppImage
