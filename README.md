@@ -18,6 +18,9 @@ Menu             | Tray     | User defined icon (Tux)
 
 ## Install
 There are only packages for `x86_64` arch right now.
+### AppImage
+`.AppImage` can be downloaded from [latest](https://github.com/aceberg/TrayPumpkin/releases/latest) release. 
+
 ### DEB
 `.deb` package can be downloaded from [latest](https://github.com/aceberg/TrayPumpkin/releases/latest) release or from my [ppa](https://github.com/aceberg/ppa) repo.
 ### RPM

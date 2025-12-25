@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2025-12-25
+### Added
+- AppImage
+
 ## [0.1.4] - 2025-12-11
 ### Added
 - `About` menu item
