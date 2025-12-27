@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 2025-12-27
+### Changed
+- .desktop and LICENSE upd
+
 ## [0.1.5] - 2025-12-25
 ### Added
 - AppImage

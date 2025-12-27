@@ -40,7 +40,7 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS
 )
 
 # RPM
-set(CPACK_RPM_PACKAGE_LICENSE "MIT")
+set(CPACK_RPM_PACKAGE_LICENSE "GPL-3.0")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Utilities")
 set(CPACK_RPM_PACKAGE_DESCRIPTION "configurable tray icon and menu")
 set(CPACK_RPM_PACKAGE_URL "https://github.com/aceberg/TrayPumpkin")

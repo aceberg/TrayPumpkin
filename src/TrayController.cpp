@@ -132,7 +132,7 @@ void TrayController::showAboutDialog()
         Version: <b>%1</b><br><br>
         Lightweight configurable tray icon and menu<br><br>
         Author: Andrew Erlikh<br>
-        Licence: MIT<br>
+        Licence: GPL-3.0<br>
         Homepage: <a href='https://github.com/aceberg/TrayPumpkin'>
         https://github.com/aceberg/TrayPumpkin</a><br>
         Donations: <a href='https://github.com/aceberg#donate'>
