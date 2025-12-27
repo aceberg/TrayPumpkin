@@ -28,7 +28,7 @@ set(CPACK_COMPONENTS_ALL main)
 
 set(CPACK_GENERATOR "DEB;RPM;TGZ")
 set(CPACK_PACKAGE_NAME "tray-pumpkin")
-set(CPACK_PACKAGE_VERSION "0.1.5")
+set(CPACK_PACKAGE_VERSION "0.1.6")
 set(CPACK_PACKAGE_CONTACT "Andrew Erlikh <aceberg_a@proton.me>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "configurable tray icon and menu")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/aceberg/TrayPumpkin")
